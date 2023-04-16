@@ -24,4 +24,5 @@ val dictationTheme = DictationTheme()
 data class DictationTheme(
     val colors: DictationColor = DictationColor(),
     val typography: Typography = dictationTypography,
+    val shapes: DictationShapes = DictationShapes(),
 )
