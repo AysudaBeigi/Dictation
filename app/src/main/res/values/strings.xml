@@ -5,4 +5,8 @@
     <string name="select_dictation_level">Please select dictation level to start</string>
     <string name="score">Score</string>
     <string name="next">Next</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="sign_up">SignUp</string>
 </resources>
