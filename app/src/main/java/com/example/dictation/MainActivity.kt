@@ -17,18 +17,20 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId", "UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-            var color = remember{
+            var color = remember {
                 mutableStateOf(Color.White)
             }
             WordScreen(
                 score = 12,
                 onSubmitClicked = {
-                          if(it=="Hi baby")   color.value = Color.Green else color.value = Color.Red
+                    if (it == "Hi baby") color.value = Color.Green else color.value = Color.Red
                 },
-                onReadWordClicked = { TTS(this@MainActivity,"Hi baby", false)},
-                onNextClicked = { /*TODO*/ }, modifier = Modifier.background(color = color.value))
+                onReadWordClicked = { TTS(this@MainActivity, "Hi baby", false) },
+                onNextClicked = {
+
+                }, modifier = Modifier.background(color = color.value)
+            )
 
         }
     }
