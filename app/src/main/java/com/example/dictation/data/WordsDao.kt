@@ -1,22 +1,19 @@
 package com.example.dictation.data
 
 import androidx.room.*
-import com.example.dictation.domain.Word
-
-import androidx.room.Database
-import androidx.room.RoomDatabase
 import com.example.dictation.domain.Level
+import com.example.dictation.domain.Word
 
 @Dao
 interface WordsDao {
     @Query("SELECT * FROM word")
-    fun getAll(): List<Word>
+   suspend fun getAll(): List<Word>
 
     @Query("SELECT * FROM word where level==:selectedLevel")
-    fun getSelectedLevelWords(selectedLevel: Level): List<Word>
+   suspend fun getSelectedLevelWords(selectedLevel: Level): List<Word>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrUpdateAll(words: List<Word>)
+    suspend fun insertOrUpdateAll(words: List<Word>)
 
 }
 

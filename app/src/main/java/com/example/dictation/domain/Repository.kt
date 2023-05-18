@@ -1,5 +1,5 @@
 package com.example.dictation.domain
 
 interface Repository {
-    fun insertWords(words:List<Word>)
+   suspend fun insertWords(words:List<Word>)
 }
