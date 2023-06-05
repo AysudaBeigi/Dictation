@@ -1,19 +1,8 @@
 package com.example.dictation.presentation.ui
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,11 +19,12 @@ import com.example.dictation.base.DictationTheme
 
 @Composable
 fun WordScreen(
+    modifier: Modifier = Modifier,
     score: Int,
-    onSubmitClicked: (String) -> Unit,
+    word: String,
+    increaseScore: () -> Unit,
     onReadWordClicked: () -> Unit,
     onNextClicked: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     val inputValue = remember { mutableStateOf(TextFieldValue()) }
     Box(
@@ -64,7 +54,15 @@ fun WordScreen(
             OutlinedTextField(value = inputValue.value, onValueChange = { inputValue.value = it })
             Spacer(modifier = Modifier.size(32.dp))
             Button(
-                onClick = { onSubmitClicked(inputValue.value.text) },
+                onClick = {
+                    if (inputValue.value.text.trim() == word) {
+                        increaseScore()
+                        //todo: success animation
+                    } else {
+                        //todo: failed animation
+                    }
+
+                },
                 modifier = Modifier
                     .clip(RoundedCornerShape(24.dp))
                     .fillMaxWidth()
@@ -90,8 +88,9 @@ fun WordScreenPreview() {
     DictationTheme {
         WordScreen(
             score = 12,
-            onSubmitClicked = { /*TODO*/ },
+            increaseScore = { /*TODO*/ },
             onReadWordClicked = { /*TODO*/ },
-            onNextClicked = { /*TODO*/ })
+            onNextClicked = { /*TODO*/ }, word = "hello"
+        )
     }
 }

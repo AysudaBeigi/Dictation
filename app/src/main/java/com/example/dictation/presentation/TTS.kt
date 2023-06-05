@@ -1,33 +1,33 @@
 package com.example.dictation.presentation
 
 
-import android.app.Activity
+import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import java.util.*
 
-class TTS(private val activity: Activity,
-          private val message: String,
-          private val br: Boolean) : TextToSpeech.OnInitListener {
+class TTS(
+    private val context: Context,
+    private val word: String
+) : TextToSpeech.OnInitListener {
 
-    private val tts: TextToSpeech = TextToSpeech(activity, this)
+    private val tts: TextToSpeech = TextToSpeech(context, this)
 
     override fun onInit(i: Int) {
         if (i == TextToSpeech.SUCCESS) {
-
-            val localeBR = Locale("pt", "BR")
             val localeUS = Locale.US
 
-            val result: Int = if (br) tts.setLanguage(localeBR) else tts.setLanguage(localeUS)
+            val result: Int = tts.setLanguage(localeUS)
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Toast.makeText(activity, "This Language is not supported", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "This Language is not supported", Toast.LENGTH_SHORT)
+                    .show()
             } else {
-                speakOut(message)
+                speakOut(word)
             }
 
         } else {
-            Toast.makeText(activity, "Initilization Failed!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Initilization Failed!", Toast.LENGTH_SHORT).show()
         }
     }
 
