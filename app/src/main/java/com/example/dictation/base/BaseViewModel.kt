@@ -2,6 +2,8 @@ package com.example.dictation.base
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel(
@@ -62,4 +64,15 @@ abstract class BaseViewModel(
     }
 
 
+}
+
+open class DictationViewModel<T>(
+    initialState: T,
+    coroutineDispatcherProvider: CoroutineDispatcherProvider
+) : BaseViewModel(coroutineContexts = coroutineDispatcherProvider) {
+    private val _state: MutableStateFlow<T> = MutableStateFlow(initialState)
+    val state: StateFlow<T> = _state
+    fun applyState(update: T.() -> T) {
+        _state.value = _state.value.update()
+    }
 }

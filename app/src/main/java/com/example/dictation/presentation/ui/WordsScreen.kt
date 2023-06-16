@@ -6,32 +6,41 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.dictation.base.*
 import com.example.dictation.domain.Word
 
 @Composable
 fun WordsScreen(
     modifier: Modifier = Modifier,
-    words: List<Word>?,
+    words: LoadableData<List<Word>>,
     score: Int,
     increaseScore: () -> Unit,
     onReadWordClicked: (String) -> Unit,
 ) {
-    words?.let {
-        val state = rememberLazyListState()
-        LazyRow(modifier = modifier, state = state) {
-            items(words) { word ->
-                WordScreen(
-                    score = score,
-                    word = word.name,
-                    increaseScore = increaseScore,
-                    onReadWordClicked = { onReadWordClicked(word.name) },
-                    onNextClicked = { /*TODO*/ })
-            }
+    when (words) {
+        is Loading, NotLoaded -> {
+
         }
-    } ?: run {
-        Text(text = "empty words ")
-        //todo: show empty words ui
+        is Loaded -> {
+            val state = rememberLazyListState()
+            if (words.data.isEmpty()) {
+                //todo: show empty words ui
+            } else {
+                LazyRow(modifier = modifier, state = state) {
+                    items(words.data) { word ->
+                        WordScreen(
+                            score = score,
+                            word = word.name,
+                            increaseScore = increaseScore,
+                            onReadWordClicked = { onReadWordClicked(word.name) },
+                            onNextClicked = { /*TODO*/ })
+                    }
+                }
+            }
+
+        }
+        is Failed -> {
+            Text(text = "failed !!!! ")
+        }
     }
-
-
 }

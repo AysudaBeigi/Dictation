@@ -2,16 +2,12 @@ package com.example.dictation.presentation
 
 import android.content.Context
 import android.util.Log
-import com.example.dictation.base.BaseViewModel
-import com.example.dictation.base.CoroutineDispatcherProvider
+import com.example.dictation.base.*
 import com.example.dictation.domain.Level
 import com.example.dictation.domain.Word
 import com.example.dictation.domain.usecase.GetSelectedLevelWordsUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 fun coroutineDispatcherProvider() = object : CoroutineDispatcherProvider {
@@ -42,26 +38,39 @@ class WordsViewModel(
     private val getSelectedLevelWordsUseCase: GetSelectedLevelWordsUseCase,
     coroutineDispatcherProvider: CoroutineDispatcherProvider = coroutineDispatcherProvider()
 ) :
-    BaseViewModel(coroutineContexts = coroutineDispatcherProvider) {
-    private val _state: MutableStateFlow<State?> = MutableStateFlow(null)
-    val state: StateFlow<State?> = _state
+    DictationViewModel<WordsViewModel.State>(
+        initialState = State(),
+        coroutineDispatcherProvider = coroutineDispatcherProvider
+    ) {
+    data class State(
+        val Loadablewords: LoadableData<List<Word>> = NotLoaded,
+        val level: Level = Level.EASY
+    )
 
     init {
-        getSelectedLevelWordsUseCase(_state.value?.level?:Level.EASY)
+        getSelectedLevelWordsUseCase(state.value.level)
     }
 
     private fun getSelectedLevelWordsUseCase(level: Level) {
+        applyState {
+            copy(Loadablewords = Loading)
+        }
+
         launch {
             runCatching {
                 getSelectedLevelWordsUseCase.execute(level = level)
             }.fold(
                 onSuccess = { words ->
-                    _state.update {
-                        it?.copy(words = words)
+                    applyState {
+                        copy(Loadablewords = Loaded(words))
                     }
                 },
                 onFailure = {
+                    applyState {
+                        copy(Loadablewords = NotLoaded)
+                    }
                     Log.d("TAG", "can not read words")
+
                 }
             )
         }
@@ -77,8 +86,8 @@ class WordsViewModel(
     }
 
     fun selectLevel(level: Level) {
-        _state.update {
-            it?.copy(level = level)
+        applyState {
+            copy(level = level)
         }
     }
 }

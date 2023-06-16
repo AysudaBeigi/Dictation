@@ -33,7 +33,7 @@ fun DictationNavGraph() {
         ) {
             composable(DictationNavigation.Words.navigationName()) {
                 WordsScreen(
-                    words = state?.words, score = 12,
+                    words = state.Loadablewords, score = 12,
                     increaseScore = {
                         viewModel.increaseScore()
                     },
