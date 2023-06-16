@@ -17,6 +17,7 @@ enum class Level {
 data class User(
     val firstName: String,
     val lastName: String,
+    @PrimaryKey
     val phoneNumber: String,
     val score: Int,
 )

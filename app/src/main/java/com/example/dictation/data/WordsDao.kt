@@ -2,6 +2,7 @@ package com.example.dictation.data
 
 import androidx.room.*
 import com.example.dictation.domain.Level
+import com.example.dictation.domain.User
 import com.example.dictation.domain.Word
 
 @Dao
@@ -18,10 +19,11 @@ interface WordsDao {
 }
 
 @Database(
-    entities = [Word::class],
-    version = 1, exportSchema = false
+    entities = [Word::class, User::class],
+    version = 2, exportSchema = false
 )
-@TypeConverters(WordEntityConverter::class)
+@TypeConverters(WordEntityConverter::class,UserEntityConverter::class)
 abstract class DictationDatabase : RoomDatabase() {
     abstract val wordsDao: WordsDao
+    abstract val userDao:UserDao
 }

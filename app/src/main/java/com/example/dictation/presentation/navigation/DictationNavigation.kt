@@ -5,5 +5,6 @@ sealed class DictationNavigation(val route: String) {
 
     object Words : DictationNavigation("words")
     object SelectLevel : DictationNavigation("select-level")
+    object Profile : DictationNavigation("profile")
 
 }

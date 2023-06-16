@@ -8,5 +8,6 @@
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="phone_number">Phone number</string>
-    <string name="sign_up">SignUp</string>
+    <string name="save">Save</string>
+    <string name="enter_word">Please Enter the read word</string>
 </resources>
