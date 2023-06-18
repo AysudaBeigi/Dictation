@@ -47,7 +47,7 @@ class WordsViewModel(
         val LoadableWords: LoadableData<List<Word>> = NotLoaded,
         val level: Level = Level.EASY,
         val score: Int = 0,
-        val user: LoadableData<User> = NotLoaded,
+        val user: LoadableData<User?> = NotLoaded,
     )
 
     init {
@@ -102,12 +102,11 @@ class WordsViewModel(
         applyState {
             copy(user = Loading)
         }
-
         launch {
             runCatching {
                 getUserUseCase.execute().collect {
                     applyState {
-                        copy(user = Loaded(it!!))
+                        copy(user = Loaded(it))
                     }
                 }
             }.onFailure {

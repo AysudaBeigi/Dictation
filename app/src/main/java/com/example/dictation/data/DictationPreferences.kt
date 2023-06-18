@@ -15,6 +15,6 @@ class DictationPreferences(context: Context) {
 
     var isFirstTimeUsing: Boolean
         get() = preferences.getBoolean(IS_FIRST_TIME_USING, true)
-        set(value) = preferences.edit().putBoolean(IS_FIRST_TIME_USING, value).apply()
+        set(value) = preferences.edit().putBoolean(IS_FIRST_TIME_USING, false).apply()
 
 }

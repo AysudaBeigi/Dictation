@@ -1,5 +1,6 @@
 package com.example.dictation.presentation.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.dictation.R
@@ -18,12 +20,14 @@ import com.example.dictation.domain.User
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    user: LoadableData<User>,
+    user: LoadableData<User?>,
     onRegisterClicked: (String, String, String) -> Unit,
 ) {
+
     when(user){
         is Loading ,NotLoaded->{
 
+            Text(text = "loading ",  style = dictationTheme.typography.h1, color= Color.Black)
         }
         is Loaded->{
             Column(
@@ -32,13 +36,13 @@ fun ProfileScreen(
                     .padding(16.dp), verticalArrangement = Arrangement.Center
             ) {
                 val firstName = remember {
-                    mutableStateOf(user.data.firstName)
+                    mutableStateOf(user.data?.firstName?:"")
                 }
                 val lastName = remember {
-                    mutableStateOf(user.data.lastName)
+                    mutableStateOf(user.data?.lastName?:"")
                 }
                 val phoneNumber = remember {
-                    mutableStateOf(user.data.phoneNumber)
+                    mutableStateOf(user.data?.phoneNumber?:"")
                 }
                 Text(text = stringResource(id = R.string.first_name))
                 Space(size = 8.dp)
@@ -70,7 +74,7 @@ fun ProfileScreen(
             }
         }
         is Failed->{
-
+            Text(text = "failed" ,style = dictationTheme.typography.h1, color= Color.Black)
         }
 
     }
