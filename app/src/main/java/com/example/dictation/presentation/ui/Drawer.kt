@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.dictation.R
+import com.example.dictation.core.Space
 
 @Composable
 private fun DrawerMenuItem(
@@ -46,6 +47,7 @@ fun Drawer(
     onScoreClicked: () -> Unit
 ) {
     Column(modifier = modifier) {
+        Space(size = 32.dp)
         DrawerMenuItem(
             iconDrawableId = R.drawable.ic_profile,
             text = stringResource(id = R.string.first_name),

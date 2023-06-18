@@ -49,7 +49,6 @@ fun ProfileScreen(
                 TextField(
                     value = firstName.value,
                     onValueChange = { firstName.value = it },
-                    enabled = false
                 )
 
                 Spacer(modifier = Modifier.size(32.dp))

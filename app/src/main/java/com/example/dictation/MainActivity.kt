@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @OptIn(ExperimentalAnimationApi::class)
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,31 +56,44 @@ class MainActivity : AppCompatActivity() {
         val insertWordsUseCase: InsertWordsUseCase by inject()
         uploadWords(getIsFirstTimeUsingUseCase, insertWordsUseCase)
         setContent {
-            val scaffoldState = rememberScaffoldState()
-            val scope = rememberCoroutineScope()
-            val navController = rememberAnimatedNavController()
-            Scaffold(
-                scaffoldState = scaffoldState,
-                topBar = {
-                    TopBar(
-                        onNavigationIconClick = {
-                            scope.launch {
-                                scaffoldState.drawerState.open()
-                            }
+            DictationMainScreen()
+        }
+    }
+
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+    @Composable
+    @OptIn(ExperimentalAnimationApi::class)
+    private fun DictationMainScreen() {
+        val scaffoldState = rememberScaffoldState()
+        val scope = rememberCoroutineScope()
+        val navController = rememberAnimatedNavController()
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = {
+                TopBar(
+                    onNavigationIconClick = {
+                        scope.launch {
+                            scaffoldState.drawerState.open()
                         }
+                    }
+                )
+            }, drawerContent = {
+                Drawer(onProfileClicked = {
+                    navController.navigate(
+                        DictationNavigation.Profile.navigationName()
                     )
-                }, drawerContent = {
-                    Drawer(onProfileClicked = {
-                        navController.navigate(
-                            DictationNavigation.Profile.navigationName()
-                        )
-                    }, onScoreClicked = {
-                        navController.navigate(DictationNavigation.Score.navigationName())
-                    })
-                }
-            ) {
-                DictationNavGraph(navController = navController)
+                    scope.launch {
+                        scaffoldState.drawerState.close()
+                    }
+                }, onScoreClicked = {
+                    navController.navigate(DictationNavigation.Score.navigationName())
+                    scope.launch {
+                        scaffoldState.drawerState.close()
+                    }
+                })
             }
+        ) {
+            DictationNavGraph(navController = navController)
         }
     }
 }
