@@ -10,4 +10,5 @@
     <string name="phone_number">Phone number</string>
     <string name="save">Save</string>
     <string name="enter_word">Please Enter the read word</string>
+    <string name="score_title">Your score is : </string>
 </resources>

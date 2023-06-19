@@ -66,7 +66,7 @@ fun DictationNavGraph(navController: NavHostController) {
                 })
             }
             composable(DictationNavigation.Score.navigationName()) {
-                Score()
+                Score(score = state.score)
             }
         }
     }

@@ -15,6 +15,7 @@ import com.example.dictation.domain.usecase.InsertWordsUseCase
 import com.example.dictation.presentation.navigation.DictationNavGraph
 import com.example.dictation.presentation.navigation.DictationNavigation
 import com.example.dictation.presentation.ui.Drawer
+import com.example.dictation.presentation.ui.SplashScreen
 import com.example.dictation.presentation.ui.TopBar
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.launch
@@ -40,7 +41,8 @@ class MainActivity : AppCompatActivity() {
         val insertWordsUseCase: InsertWordsUseCase by inject()
         uploadWords(isFirstTimeUsingUseCase, insertWordsUseCase)
         setContent {
-            DictationMainScreen()
+            SplashScreen()
+            //DictationMainScreen()
         }
     }
 
