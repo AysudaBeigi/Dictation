@@ -21,7 +21,7 @@ val dictationModule = module {
         GetSelectedLevelWordsUseCase(repository = get())
     }
     factory {
-        GetIsFirstTimeUsingUseCase(dictationPreferences = get())
+        IsFirstTimeUsingUseCase(dictationPreferences = get())
     }
     factory {
         InsertOrUpdateUserUseCase(repository = get())

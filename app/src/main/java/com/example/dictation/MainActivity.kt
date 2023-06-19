@@ -2,32 +2,15 @@ package com.example.dictation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.example.dictation.domain.usecase.GetIsFirstTimeUsingUseCase
+import com.example.dictation.domain.usecase.IsFirstTimeUsingUseCase
 import com.example.dictation.domain.usecase.InsertWordsUseCase
 import com.example.dictation.presentation.navigation.DictationNavGraph
 import com.example.dictation.presentation.navigation.DictationNavigation
@@ -39,22 +22,23 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     private fun uploadWords(
-        getIsFirstTimeUsingUseCase: GetIsFirstTimeUsingUseCase,
+        isFirstTimeUsingUseCase: IsFirstTimeUsingUseCase,
         insertWordsUseCase: InsertWordsUseCase
     ) {
         lifecycleScope.launch {
-            if (getIsFirstTimeUsingUseCase.execute()) {
+            if (isFirstTimeUsingUseCase.execute()) {
                 insertWordsUseCase.execute()
             }
+            isFirstTimeUsingUseCase.updatePreferences()
         }
     }
 
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val getIsFirstTimeUsingUseCase: GetIsFirstTimeUsingUseCase by inject()
+        val isFirstTimeUsingUseCase: IsFirstTimeUsingUseCase by inject()
         val insertWordsUseCase: InsertWordsUseCase by inject()
-        uploadWords(getIsFirstTimeUsingUseCase, insertWordsUseCase)
+        uploadWords(isFirstTimeUsingUseCase, insertWordsUseCase)
         setContent {
             DictationMainScreen()
         }

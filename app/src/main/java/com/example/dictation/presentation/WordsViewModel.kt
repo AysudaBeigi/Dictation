@@ -6,7 +6,7 @@ import com.example.dictation.base.*
 import com.example.dictation.domain.Level
 import com.example.dictation.domain.User
 import com.example.dictation.domain.Word
-import com.example.dictation.domain.usecase.GetIsFirstTimeUsingUseCase
+import com.example.dictation.domain.usecase.IsFirstTimeUsingUseCase
 import com.example.dictation.domain.usecase.GetSelectedLevelWordsUseCase
 import com.example.dictation.domain.usecase.GetUserUseCase
 import com.example.dictation.domain.usecase.InsertOrUpdateUserUseCase
@@ -36,7 +36,7 @@ class WordsViewModel(
     private val getSelectedLevelWordsUseCase: GetSelectedLevelWordsUseCase,
     private val getUserUseCase: GetUserUseCase,
     private val insertOrUpdateUserUseCase: InsertOrUpdateUserUseCase,
-    private val isFirstTimeUsing: GetIsFirstTimeUsingUseCase,
+    private val isFirstTimeUsing: IsFirstTimeUsingUseCase,
     coroutineDispatcherProvider: CoroutineDispatcherProvider = coroutineDispatcherProvider()
 ) :
     DictationViewModel<WordsViewModel.State>(
