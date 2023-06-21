@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.dictation.presentation.WordsViewModel
 import com.example.dictation.presentation.ui.DictationLevelScreen
 import com.example.dictation.presentation.ui.Drawer
@@ -26,8 +27,8 @@ import org.koin.androidx.compose.getViewModel
  fun DictationScreen(
     navController: NavHostController
 ) {
-    val scaffoldState= rememberScaffoldState()
-    val scope= rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -55,13 +56,13 @@ import org.koin.androidx.compose.getViewModel
         }
     ) { padding ->
         Box(modifier = Modifier.padding()) {
-            Graph(navController = navController)
+            DictationGraph()
         }
     }
 }
 
 @Composable
-fun Graph(navController: NavHostController) {
+fun DictationGraph() {
     val viewModel: WordsViewModel = getViewModel()
 
     val state = viewModel.state.collectAsState().value
@@ -70,6 +71,7 @@ fun Graph(navController: NavHostController) {
     val startDestination =
         if (viewModel.isFirstTimeUsing()) DictationNavigation.Profile.navigationName() else
             DictationNavigation.SelectLevel.navigationName()
+    val navController = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = startDestination
