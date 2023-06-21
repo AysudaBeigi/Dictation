@@ -1,6 +1,6 @@
 package com.example.dictation.presentation.ui
 
-import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.dictation.R
 import com.example.dictation.base.*
@@ -24,25 +25,26 @@ fun ProfileScreen(
     onRegisterClicked: (String, String, String) -> Unit,
 ) {
 
-    when(user){
-        is Loading ,NotLoaded->{
+    when (user) {
+        is Loading, NotLoaded -> {
 
-            Text(text = "loading ",  style = dictationTheme.typography.h1, color= Color.Black)
+            Text(text = "loading ", style = dictationTheme.typography.h1, color = Color.Black)
         }
-        is Loaded->{
+        is Loaded -> {
             Column(
                 modifier = modifier
                     .fillMaxSize()
+                    .background(color = dictationTheme.colors.background)
                     .padding(16.dp), verticalArrangement = Arrangement.Center
             ) {
                 val firstName = remember {
-                    mutableStateOf(user.data?.firstName?:"")
+                    mutableStateOf(user.data?.firstName ?: "")
                 }
                 val lastName = remember {
-                    mutableStateOf(user.data?.lastName?:"")
+                    mutableStateOf(user.data?.lastName ?: "")
                 }
                 val phoneNumber = remember {
-                    mutableStateOf(user.data?.phoneNumber?:"")
+                    mutableStateOf(user.data?.phoneNumber ?: "")
                 }
                 Text(text = stringResource(id = R.string.first_name))
                 Space(size = 8.dp)
@@ -72,11 +74,22 @@ fun ProfileScreen(
                 }
             }
         }
-        is Failed->{
-            Text(text = "failed" ,style = dictationTheme.typography.h1, color= Color.Black)
+        is Failed -> {
+            Text(text = "failed", style = dictationTheme.typography.h1, color = Color.Black)
         }
 
     }
 
 
+}
+
+
+@Composable
+@Preview
+fun ProfileScreenPreview() {
+    DictationTheme {
+        ProfileScreen(
+            user = Loaded(User(firstName = "", lastName = "", phoneNumber = "", score = 20)),
+            onRegisterClicked = { _, _, _ -> })
+    }
 }
