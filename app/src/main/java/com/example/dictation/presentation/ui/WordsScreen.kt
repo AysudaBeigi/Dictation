@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.dictation.R
 import com.example.dictation.base.*
@@ -80,5 +81,18 @@ fun WordsScreen(
         is Failed -> {
             Text(text = "failed !!!! ")
         }
+    }
+}
+
+@Preview
+@Composable
+fun WordsScreenPreview() {
+    DictationTheme {
+        WordsScreen(
+            increaseScore = { /*TODO*/ },
+            onReadWordClicked = { /*TODO*/ },
+            words = Loaded(listOf()),
+            score = 56
+        )
     }
 }

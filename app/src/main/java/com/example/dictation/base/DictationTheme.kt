@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.LayoutDirection
 
 @Composable
 fun DictationTheme(content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
         MaterialTheme(
             colors = color,
             typography = dictationTypography,

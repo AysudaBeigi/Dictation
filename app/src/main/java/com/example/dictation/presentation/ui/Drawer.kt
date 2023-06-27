@@ -1,12 +1,8 @@
 package com.example.dictation.presentation.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,8 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.dictation.R
+import com.example.dictation.base.DictationTheme
+import com.example.dictation.base.dictationTheme
 import com.example.dictation.core.Space
 
 @Composable
@@ -46,17 +45,25 @@ fun Drawer(
     onProfileClicked: () -> Unit,
     onScoreClicked: () -> Unit
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.background(color = dictationTheme.colors.background)) {
         Space(size = 32.dp)
         DrawerMenuItem(
             iconDrawableId = R.drawable.ic_profile,
-            text = stringResource(id = R.string.first_name),
+            text = stringResource(id = R.string.profile),
             onItemClick = onProfileClicked
         )
         DrawerMenuItem(
             iconDrawableId = R.drawable.ic_setting,
-            text = "Score",
+            text = stringResource(id = R.string.score),
             onItemClick = onScoreClicked
         )
+    }
+}
+
+@Composable
+@Preview
+fun DrawerPreview() {
+    DictationTheme {
+        Drawer(onProfileClicked = {}, onScoreClicked = {})
     }
 }
