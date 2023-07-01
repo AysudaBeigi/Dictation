@@ -37,7 +37,7 @@ fun Drawer(
         )
         Spacer(
             modifier = Modifier
-                .height(2.dp)
+                .height(1.dp)
                 .fillMaxWidth()
                 .background(color = dictationTheme.colors.gray)
         )

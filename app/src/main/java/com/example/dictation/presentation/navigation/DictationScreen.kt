@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
- fun DictationScreen(
+fun DictationScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -53,7 +53,7 @@ import org.koin.androidx.compose.getViewModel
                     scaffoldState.drawerState.close()
                 }
             })
-        }
+        },
     ) { padding ->
         Box(modifier = Modifier.padding()) {
             DictationGraph(navController)
@@ -62,7 +62,7 @@ import org.koin.androidx.compose.getViewModel
 }
 
 @Composable
-fun DictationGraph(navController:NavHostController) {
+fun DictationGraph(navController: NavHostController) {
     val viewModel: WordsViewModel = getViewModel()
 
     val state = viewModel.state.collectAsState().value
