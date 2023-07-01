@@ -25,10 +25,10 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
  fun DictationScreen(
-    navController: NavHostController
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val navController = rememberNavController()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -56,13 +56,13 @@ import org.koin.androidx.compose.getViewModel
         }
     ) { padding ->
         Box(modifier = Modifier.padding()) {
-            DictationGraph()
+            DictationGraph(navController)
         }
     }
 }
 
 @Composable
-fun DictationGraph() {
+fun DictationGraph(navController:NavHostController) {
     val viewModel: WordsViewModel = getViewModel()
 
     val state = viewModel.state.collectAsState().value
@@ -71,7 +71,7 @@ fun DictationGraph() {
     val startDestination =
         if (viewModel.isFirstTimeUsing()) DictationNavigation.Profile.navigationName() else
             DictationNavigation.SelectLevel.navigationName()
-    val navController = rememberNavController()
+
     NavHost(
         navController = navController,
         startDestination = startDestination

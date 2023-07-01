@@ -19,7 +19,7 @@ fun MainNavGraph(navController: NavHostController) {
             }
         }
         composable(route = DictationNavigation.routeName) {
-            DictationScreen(navController = navController,)
+            DictationScreen()
         }
     }
 }

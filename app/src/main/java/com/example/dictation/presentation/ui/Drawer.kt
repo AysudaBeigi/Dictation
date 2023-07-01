@@ -18,6 +18,38 @@ import com.example.dictation.base.dictationTheme
 import com.example.dictation.core.Space
 
 @Composable
+fun Drawer(
+    modifier: Modifier = Modifier,
+    onProfileClicked: () -> Unit,
+    onScoreClicked: () -> Unit
+) {
+    Column(
+        modifier = modifier
+            .background(color = dictationTheme.colors.background)
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Space(size = 32.dp)
+        DrawerMenuItem(
+            iconDrawableId = R.drawable.ic_profile,
+            text = stringResource(id = R.string.profile),
+            onItemClick = onProfileClicked
+        )
+        Spacer(
+            modifier = Modifier
+                .height(2.dp)
+                .fillMaxWidth()
+                .background(color = dictationTheme.colors.gray)
+        )
+        DrawerMenuItem(
+            iconDrawableId = R.drawable.ic_setting,
+            text = stringResource(id = R.string.score),
+            onItemClick = onScoreClicked
+        )
+    }
+}
+
+@Composable
 private fun DrawerMenuItem(
     iconDrawableId: Int,
     text: String,
@@ -33,29 +65,13 @@ private fun DrawerMenuItem(
         Icon(
             painter = painterResource(iconDrawableId),
             contentDescription = null,
+            tint = dictationTheme.colors.gray
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text = text)
-    }
-}
-
-@Composable
-fun Drawer(
-    modifier: Modifier = Modifier,
-    onProfileClicked: () -> Unit,
-    onScoreClicked: () -> Unit
-) {
-    Column(modifier = modifier.background(color = dictationTheme.colors.background)) {
-        Space(size = 32.dp)
-        DrawerMenuItem(
-            iconDrawableId = R.drawable.ic_profile,
-            text = stringResource(id = R.string.profile),
-            onItemClick = onProfileClicked
-        )
-        DrawerMenuItem(
-            iconDrawableId = R.drawable.ic_setting,
-            text = stringResource(id = R.string.score),
-            onItemClick = onScoreClicked
+        Text(
+            text = text,
+            style = dictationTheme.typography.h2,
+            color = dictationTheme.colors.primary
         )
     }
 }
