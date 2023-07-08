@@ -44,10 +44,10 @@ fun WordScreen(
     ) {
         IconButton(onClick = { onReadWordClicked() }, modifier = Modifier.size(126.dp)) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_play),
+                painter = painterResource(id = R.drawable.ic_play_2),
                 contentDescription = stringResource(id = R.string.read_word),
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(100.dp), tint = dictationTheme.colors.pink
             )
         }
 

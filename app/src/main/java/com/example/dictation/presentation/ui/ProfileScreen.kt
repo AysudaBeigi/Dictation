@@ -1,6 +1,7 @@
 package com.example.dictation.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,8 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.dictation.R
@@ -97,7 +98,6 @@ private fun LoadedProfileScreenContent(
     }
 }
 
-
 @Composable
 private fun UserInformationTextFields(
     modifier: Modifier,
@@ -117,21 +117,28 @@ private fun UserInformationTextFields(
         UserInformationItemTextFiled(
             value = firstName.value,
             onValueChange = { firstName.value = it },
+            keyboardType = KeyboardType.Text
         )
 
         Spacer(modifier = Modifier.size(32.dp))
 
         Text(text = stringResource(id = R.string.last_name))
+        Space(size = 8.dp)
         UserInformationItemTextFiled(
             value = lastName.value,
-            onValueChange = { lastName.value = it })
+            onValueChange = { lastName.value = it },
+            keyboardType = KeyboardType.Text
+        )
 
         Spacer(modifier = Modifier.size(32.dp))
 
         Text(text = stringResource(id = R.string.phone_number))
+        Space(size = 8.dp)
         UserInformationItemTextFiled(
             value = phoneNumber.value,
-            onValueChange = { phoneNumber.value = it })
+            onValueChange = { phoneNumber.value = it },
+            keyboardType = KeyboardType.Phone
+        )
         Spacer(modifier = Modifier.size(32.dp))
 
     }
@@ -140,16 +147,28 @@ private fun UserInformationTextFields(
 @Composable
 private fun UserInformationItemTextFiled(
     value: String,
+    keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     label: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 2.dp,
+                color = dictationTheme.colors.primary,
+                shape = dictationTheme.shapes.medium
+            ),
         label = label,
         shape = dictationTheme.shapes.medium,
-        colors = TextFieldDefaults.outlinedTextFieldColors(cursorColor = dictationTheme.colors.pink)
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            cursorColor = dictationTheme.colors.pink,
+            textColor = dictationTheme.colors.primary
+        ),
+        maxLines = 1,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
     )
 }
 
@@ -158,7 +177,14 @@ private fun UserInformationItemTextFiled(
 fun ProfileScreenPreview() {
     DictationTheme {
         ProfileScreen(
-            user = Loaded(User(firstName = "", lastName = "", phoneNumber = "", score = 20)),
+            user = Loaded(
+                User(
+                    firstName = "aysuda",
+                    lastName = "beigi",
+                    phoneNumber = "98912345678",
+                    score = 20
+                )
+            ),
             onRegisterClicked = { _, _, _ -> })
     }
 }
