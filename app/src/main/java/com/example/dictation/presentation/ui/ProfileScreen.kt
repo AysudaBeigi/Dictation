@@ -32,6 +32,7 @@ import com.example.dictation.base.Loaded
 import com.example.dictation.base.Loading
 import com.example.dictation.base.NotLoaded
 import com.example.dictation.base.dictationTheme
+import com.example.dictation.core.PrimaryButton
 import com.example.dictation.core.Space
 import com.example.dictation.domain.User
 
@@ -91,30 +92,11 @@ private fun LoadedProfileScreenContent(
                     phoneNumber.value
                 )
             },
+            title = stringResource(id = R.string.save)
         )
     }
 }
 
-@Composable
-private fun PrimaryButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = dictationTheme.colors.pink,
-        ), shape = dictationTheme.shapes.medium
-    ) {
-        Text(
-            text = stringResource(id = R.string.save),
-            color = dictationTheme.colors.primary,
-            modifier = Modifier,
-            style = dictationTheme.typography.h2
-        )
-    }
-}
 
 @Composable
 private fun UserInformationTextFields(
