@@ -29,6 +29,7 @@ fun DictationScreen(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
+    val viewModel: WordsViewModel = getViewModel()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -52,18 +53,20 @@ fun DictationScreen(
                 scope.launch {
                     scaffoldState.drawerState.close()
                 }
+            }, onLogoutClicked = {
+                viewModel.deleteUser()
+                navController.navigate(DictationNavigation.Profile.navigationName())
             })
         },
     ) { padding ->
         Box(modifier = Modifier.padding()) {
-            DictationGraph(navController)
+            DictationGraph(navController = navController, viewModel = viewModel)
         }
     }
 }
 
 @Composable
-fun DictationGraph(navController: NavHostController) {
-    val viewModel: WordsViewModel = getViewModel()
+fun DictationGraph(navController: NavHostController,viewModel:WordsViewModel) {
 
     val state = viewModel.state.collectAsState().value
     val context = LocalContext.current

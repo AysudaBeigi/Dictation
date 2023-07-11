@@ -21,7 +21,8 @@ import com.example.dictation.core.Space
 fun Drawer(
     modifier: Modifier = Modifier,
     onProfileClicked: () -> Unit,
-    onScoreClicked: () -> Unit
+    onScoreClicked: () -> Unit,
+    onLogoutClicked: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -42,9 +43,20 @@ fun Drawer(
                 .background(color = dictationTheme.colors.gray)
         )
         DrawerMenuItem(
-            iconDrawableId = R.drawable.ic_setting,
+            iconDrawableId = R.drawable.ic_score_2,
             text = stringResource(id = R.string.score),
             onItemClick = onScoreClicked
+        )
+        Spacer(
+            modifier = Modifier
+                .height(1.dp)
+                .fillMaxWidth()
+                .background(color = dictationTheme.colors.gray)
+        )
+        DrawerMenuItem(
+            iconDrawableId = R.drawable.ic_logout,
+            text = stringResource(id = R.string.logout),
+            onItemClick = onLogoutClicked
         )
     }
 }
@@ -65,7 +77,8 @@ private fun DrawerMenuItem(
         Icon(
             painter = painterResource(iconDrawableId),
             contentDescription = null,
-            tint = dictationTheme.colors.gray
+            tint = dictationTheme.colors.gray,
+            modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
@@ -80,6 +93,6 @@ private fun DrawerMenuItem(
 @Preview
 fun DrawerPreview() {
     DictationTheme {
-        Drawer(onProfileClicked = {}, onScoreClicked = {})
+        Drawer(onProfileClicked = {}, onScoreClicked = {}, onLogoutClicked = {})
     }
 }

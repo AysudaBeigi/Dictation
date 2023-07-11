@@ -10,5 +10,6 @@ interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdateUser(user: User)
-
+    @Delete
+    suspend fun deleteUser(user: User)
 }

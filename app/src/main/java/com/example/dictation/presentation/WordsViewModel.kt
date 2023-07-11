@@ -6,6 +6,7 @@ import com.example.dictation.base.*
 import com.example.dictation.domain.Level
 import com.example.dictation.domain.User
 import com.example.dictation.domain.Word
+import com.example.dictation.domain.usecase.DeleteUserUseCase
 import com.example.dictation.domain.usecase.IsFirstTimeUsingUseCase
 import com.example.dictation.domain.usecase.GetSelectedLevelWordsUseCase
 import com.example.dictation.domain.usecase.GetUserUseCase
@@ -36,6 +37,7 @@ class WordsViewModel(
     private val getSelectedLevelWordsUseCase: GetSelectedLevelWordsUseCase,
     private val getUserUseCase: GetUserUseCase,
     private val insertOrUpdateUserUseCase: InsertOrUpdateUserUseCase,
+    private val deleteUserUseCase: DeleteUserUseCase,
     private val isFirstTimeUsing: IsFirstTimeUsingUseCase,
     coroutineDispatcherProvider: CoroutineDispatcherProvider = coroutineDispatcherProvider()
 ) :
@@ -81,7 +83,6 @@ class WordsViewModel(
         }
     }
 
-
     fun onReadWordClicked(word: String, context: Context) {
         TTS(word = word, context = context)
     }
@@ -125,6 +126,14 @@ class WordsViewModel(
                     score = state.value.score
                 )
             )
+        }
+    }
+
+    fun deleteUser() {
+        state.value.user.data?.let { user ->
+            launch {
+                deleteUserUseCase.execute(user = user)
+            }
         }
     }
 }

@@ -4,6 +4,7 @@
     <string name="read_word">Read word</string>
     <string name="select_dictation_level">Please select dictation level to start</string>
     <string name="score">Score</string>
+    <string name="logout">Logout</string>
     <string name="profile">Profile</string>
     <string name="next">Next</string>
     <string name="first_name">First name</string>

@@ -27,4 +27,8 @@ class RepositoryImpl(private val wordsDao: WordsDao, private val userDao: UserDa
         userDao.insertOrUpdateUser(user = user)
         userFlow.emit(user)
     }
+
+    override suspend fun deleteUser(user:User) {
+        userDao.deleteUser(user=user)
+    }
 }

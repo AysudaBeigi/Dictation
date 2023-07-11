@@ -7,4 +7,5 @@ interface Repository {
    suspend fun getSelectedLevelWords(level: Level):List<Word>
    suspend fun getUser(): StateFlow<User?>
    suspend fun insertOrUpdateUser(user: User)
+   suspend fun deleteUser(user: User)
 }

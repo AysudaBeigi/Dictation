@@ -29,13 +29,17 @@ val dictationModule = module {
     factory {
         GetUserUseCase(repository = get())
     }
+    factory {
+        DeleteUserUseCase(repository = get())
+    }
     viewModel {
         WordsViewModel(
             coroutineDispatcherProvider = coroutineDispatcherProvider(),
             getSelectedLevelWordsUseCase = get(),
             getUserUseCase = get(),
             insertOrUpdateUserUseCase = get(),
-            isFirstTimeUsing = get()
+            isFirstTimeUsing = get(),
+            deleteUserUseCase = get()
         )
     }
     single {
