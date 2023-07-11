@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.airbnb.lottie.compose.LottieAnimation
@@ -26,7 +27,8 @@ fun SplashScreen(onFinished: () -> Unit) {
         val logoAnimationState = animateLottieCompositionAsState(composition = composition)
         LottieAnimation(
             composition = composition,
-            progress = logoAnimationState.progress
+            progress = logoAnimationState.progress,
+            modifier = Modifier.align(Alignment.Center)
         )
         if (logoAnimationState.isAtEnd && logoAnimationState.isPlaying) {
             onFinished()
