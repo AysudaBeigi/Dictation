@@ -23,7 +23,7 @@ fun SplashScreen(onFinished: () -> Unit) {
             .background(color = dictationTheme.colors.background)
             .fillMaxSize()
     ) {
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.dictation_anim))
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.dictation_2))
         val logoAnimationState = animateLottieCompositionAsState(composition = composition)
         LottieAnimation(
             composition = composition,
