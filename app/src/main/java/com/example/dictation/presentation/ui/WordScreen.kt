@@ -18,12 +18,13 @@ import com.example.dictation.R
 import com.example.dictation.base.DictationTheme
 import com.example.dictation.base.dictationTheme
 import com.example.dictation.core.PrimaryButton
+import com.example.dictation.domain.DictationResult
 
 @Composable
 fun WordScreen(
     modifier: Modifier = Modifier,
     word: String,
-    increaseScore: () -> Unit,
+    sendResult: (DictationResult) -> Unit,
     onReadWordClicked: () -> Unit,
 ) {
     val inputValue = remember { mutableStateOf(TextFieldValue()) }
@@ -66,12 +67,11 @@ fun WordScreen(
         PrimaryButton(
             onClick = {
                 if (inputValue.value.text.trim() == word) {
-                    increaseScore()
+                    sendResult(DictationResult.Success)
                     backgroundColor.value = dictationTheme.colors.darkGreen
-                    //todo: success animation
                 } else {
+                    sendResult(DictationResult.Failed)
                     backgroundColor.value = dictationTheme.colors.darkRed
-                    //todo: failed animation
                 }
             }, title = stringResource(id = R.string.submit),
             modifier = Modifier.fillMaxWidth()
@@ -85,7 +85,7 @@ fun WordScreen(
 fun WordScreenPreview() {
     DictationTheme {
         WordScreen(
-            increaseScore = { /*TODO*/ },
+            sendResult = { /*TODO*/ },
             onReadWordClicked = { /*TODO*/ },
             word = "hello"
         )

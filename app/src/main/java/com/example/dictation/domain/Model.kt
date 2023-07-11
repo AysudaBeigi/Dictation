@@ -13,6 +13,7 @@ data class Word(
 enum class Level {
     EASY, HARD, MIDDLE
 }
+
 @Entity(tableName = "user")
 data class User(
     val firstName: String,
@@ -21,3 +22,8 @@ data class User(
     val phoneNumber: String,
     val score: Int,
 )
+
+sealed class DictationResult {
+    object Success : DictationResult()
+    object Failed : DictationResult()
+}

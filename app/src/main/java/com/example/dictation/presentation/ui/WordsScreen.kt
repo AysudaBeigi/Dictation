@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,8 +37,10 @@ import com.example.dictation.base.Loading
 import com.example.dictation.base.NotLoaded
 import com.example.dictation.base.dictationTheme
 import com.example.dictation.core.Space
+import com.example.dictation.domain.DictationResult
 import com.example.dictation.domain.Level
 import com.example.dictation.domain.Word
+import org.junit.internal.runners.statements.Fail
 
 @Composable
 fun WordsScreen(
@@ -109,8 +112,7 @@ private fun LoadedWords(
                 state = state,
                 words = words,
                 increaseScore = {
-                    showAnimation.value = true
-                    increaseScore()
+                    showDictationResult(it, increaseScore, showAnimation)
                 },
                 onReadWordClicked = onReadWordClicked
             )
@@ -119,6 +121,23 @@ private fun LoadedWords(
                     .align(BottomCenter)
                     .padding(16.dp)
             )
+        }
+    }
+}
+
+private fun showDictationResult(
+    it: DictationResult,
+    increaseScore: () -> Unit,
+    showAnimation: MutableState<Boolean>
+) {
+    when (it) {
+        is DictationResult.Success -> {
+            increaseScore()
+            showAnimation.value = true
+        }
+
+        is DictationResult.Failed -> {
+            showAnimation.value = false
         }
     }
 }
@@ -142,7 +161,7 @@ private fun WordsLazyRow(
     modifier: Modifier,
     state: LazyListState,
     words: Loaded<List<Word>>,
-    increaseScore: () -> Unit,
+    increaseScore: (DictationResult) -> Unit,
     onReadWordClicked: (String) -> Unit
 ) {
     LazyRow(
@@ -152,7 +171,7 @@ private fun WordsLazyRow(
         items(words.data) { word ->
             WordScreen(
                 word = word.name,
-                increaseScore = increaseScore,
+                sendResult = increaseScore,
                 onReadWordClicked = { onReadWordClicked(word.name) },
             )
         }
