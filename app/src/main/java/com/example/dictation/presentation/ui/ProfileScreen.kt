@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -46,8 +47,7 @@ fun ProfileScreen(
 
     when (user) {
         is Loading, NotLoaded -> {
-
-            Text(text = "loading ", style = dictationTheme.typography.h1, color = Color.Black)
+            Loading()
         }
 
         is Loaded -> {
@@ -58,6 +58,13 @@ fun ProfileScreen(
             Text(text = "failed", style = dictationTheme.typography.h1, color = Color.Black)
         }
 
+    }
+}
+
+@Composable
+private fun Loading() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        CircularProgressIndicator(modifier = Modifier, color = dictationTheme.colors.pink)
     }
 }
 

@@ -15,19 +15,19 @@ val dictationTypography = Typography(
         color = Color.Black,
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
-        fontFamily = FontFamily(Font(R.font.iransansmobile)),
+        fontFamily = FontFamily(Font(R.font.montserrat_medium)),
     ),
     h2 = TextStyle(
         color = Color.Black,
         fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
-        fontFamily = FontFamily(Font(R.font.iransansmobile)),
+        fontFamily = FontFamily(Font(R.font.montserrat_medium)),
     ),
     h3 = TextStyle(
         color = Color.Black,
         fontSize = 14.sp,
         fontWeight = FontWeight.Normal,
-        fontFamily = FontFamily(Font(R.font.iransansmobile)),
+        fontFamily = FontFamily(Font(R.font.montserrat_medium)),
     ),
     h6 = TextStyle(
         color = Color.Black,
@@ -39,7 +39,7 @@ val dictationTypography = Typography(
         color = Color.Black,
         fontSize = 12.sp,
         fontWeight = FontWeight.Normal,
-        fontFamily = FontFamily(Font(R.font.iransansmobile)),
+        fontFamily = FontFamily(Font(R.font.montserrat_medium)),
     ),
     h5 = TextStyle(
         color = Color.Black,
