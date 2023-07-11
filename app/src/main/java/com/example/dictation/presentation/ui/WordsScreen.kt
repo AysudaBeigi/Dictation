@@ -12,6 +12,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.TopCenter
@@ -20,6 +23,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.dictation.R
 import com.example.dictation.base.DictationTheme
 import com.example.dictation.base.Failed
@@ -72,6 +79,22 @@ private fun LoadedWords(
                 .background(color = dictationTheme.colors.background)
                 .padding(16.dp)
         ) {
+
+            val showAnimation = remember {
+                mutableStateOf(false)
+            }
+            if (showAnimation.value) {
+                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.celebrate_pink))
+                val logoAnimationState = animateLottieCompositionAsState(composition = composition)
+                LottieAnimation(
+                    composition = composition,
+                    progress = logoAnimationState.progress,
+                    modifier = Modifier
+                        .background(color = dictationTheme.colors.background)
+                        .align(Center)
+                        .matchParentSize()
+                )
+            }
             Text(
                 text = stringResource(id = R.string.enter_word),
                 textAlign = TextAlign.Center,
@@ -82,15 +105,20 @@ private fun LoadedWords(
                 color = dictationTheme.colors.primary,
             )
             WordsLazyRow(
-                modifier.align(Center),
-                state,
-                words,
-                increaseScore,
-                onReadWordClicked
+                modifier = modifier.align(Center),
+                state = state,
+                words = words,
+                increaseScore = {
+                    showAnimation.value = true
+                    increaseScore()
+                },
+                onReadWordClicked = onReadWordClicked
             )
-            WordsTotalScore(score = score, modifier = Modifier
-                .align(BottomCenter)
-                .padding(16.dp))
+            WordsTotalScore(
+                score = score, modifier = Modifier
+                    .align(BottomCenter)
+                    .padding(16.dp)
+            )
         }
     }
 }
