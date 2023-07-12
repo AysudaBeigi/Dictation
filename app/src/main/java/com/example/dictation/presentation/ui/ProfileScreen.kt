@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -34,6 +33,8 @@ import com.example.dictation.base.Loaded
 import com.example.dictation.base.Loading
 import com.example.dictation.base.NotLoaded
 import com.example.dictation.base.dictationTheme
+import com.example.dictation.core.FailedComponent
+import com.example.dictation.core.LoadingComponent
 import com.example.dictation.core.PrimaryButton
 import com.example.dictation.core.Space
 import com.example.dictation.domain.User
@@ -47,7 +48,7 @@ fun ProfileScreen(
 
     when (user) {
         is Loading, NotLoaded -> {
-            Loading()
+           LoadingComponent()
         }
 
         is Loaded -> {
@@ -55,16 +56,9 @@ fun ProfileScreen(
         }
 
         is Failed -> {
-            Text(text = "failed", style = dictationTheme.typography.h1, color = Color.Black)
+            FailedComponent()
         }
 
-    }
-}
-
-@Composable
-private fun Loading() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        CircularProgressIndicator(modifier = Modifier, color = dictationTheme.colors.pink)
     }
 }
 

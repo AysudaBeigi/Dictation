@@ -3,6 +3,7 @@ package com.example.dictation.presentation.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.TopCenter
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,11 +37,12 @@ import com.example.dictation.base.Loaded
 import com.example.dictation.base.Loading
 import com.example.dictation.base.NotLoaded
 import com.example.dictation.base.dictationTheme
+import com.example.dictation.core.FailedComponent
+import com.example.dictation.core.LoadingComponent
 import com.example.dictation.core.Space
 import com.example.dictation.domain.DictationResult
 import com.example.dictation.domain.Level
 import com.example.dictation.domain.Word
-import org.junit.internal.runners.statements.Fail
 
 @Composable
 fun WordsScreen(
@@ -52,6 +54,7 @@ fun WordsScreen(
 ) {
     when (words) {
         is Loading, NotLoaded -> {
+            LoadingComponent()
         }
 
         is Loaded -> {
@@ -59,7 +62,7 @@ fun WordsScreen(
         }
 
         is Failed -> {
-            Text(text = "failed !!!! ")
+            FailedComponent()
         }
     }
 }
@@ -98,15 +101,6 @@ private fun LoadedWords(
                         .matchParentSize()
                 )
             }
-            Text(
-                text = stringResource(id = R.string.enter_word),
-                textAlign = TextAlign.Center,
-                style = dictationTheme.typography.h1,
-                modifier = Modifier
-                    .align(TopCenter)
-                    .padding(16.dp),
-                color = dictationTheme.colors.primary,
-            )
             WordsLazyRow(
                 modifier = modifier.align(Center),
                 state = state,
@@ -145,14 +139,28 @@ private fun showDictationResult(
 @Composable
 private fun WordsTotalScore(score: Int, modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(), verticalAlignment = CenterVertically
     ) {
         Text(
             text = stringResource(id = R.string.score),
             style = dictationTheme.typography.h2,
         )
         Space(size = 16.dp)
-        Text(text = score.toString(), style = dictationTheme.typography.h2)
+        Box(
+            modifier = Modifier
+                .defaultMinSize(minWidth = 48.dp, minHeight = 48.dp)
+                .background(
+                    color = dictationTheme.colors.pink,
+                    shape = dictationTheme.shapes.medium
+                )
+        ) {
+            Text(
+                text = score.toString(),
+                style = dictationTheme.typography.h2,
+                modifier = Modifier.align(Center), textAlign = TextAlign.Center
+            )
+        }
+
     }
 }
 

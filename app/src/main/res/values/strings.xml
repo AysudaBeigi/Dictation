@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Dictation</string>
+    <string name="error">We are sorry . an error occurred</string>
     <string name="submit">Submit</string>
     <string name="read_word">Read word</string>
     <string name="select_dictation_level">Please select dictation level to start</string>
+    <string name="dictation_level">Dictation Level</string>
     <string name="score">Score</string>
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
