@@ -61,7 +61,7 @@ fun WordScreen(
                 width = 2.dp,
                 color = dictationTheme.colors.primary,
                 shape = dictationTheme.shapes.large
-            ).width(300.dp), shape = dictationTheme.shapes.large
+            ).width(260.dp), shape = dictationTheme.shapes.large
         )
         Spacer(modifier = Modifier.size(32.dp))
         PrimaryButton(

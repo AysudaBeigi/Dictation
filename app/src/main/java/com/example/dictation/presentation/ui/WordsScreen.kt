@@ -20,6 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment.Companion.TopCenter
+import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -102,7 +104,9 @@ private fun LoadedWords(
                 )
             }
             WordsLazyRow(
-                modifier = modifier.align(Center),
+                modifier = modifier
+                    .padding(vertical = 64.dp)
+                    .align(TopCenter),
                 state = state,
                 words = words,
                 increaseScore = {
