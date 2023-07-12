@@ -54,7 +54,7 @@ class WordsViewModel(
 
     init {
         updateSelectedLevelWords()
-        getUser()
+        updateUser()
     }
 
     fun isFirstTimeUsing() = isFirstTimeUsing.execute()
@@ -98,7 +98,7 @@ class WordsViewModel(
         updateSelectedLevelWords()
     }
 
-    private fun getUser() {
+    private fun updateUser() {
         applyState {
             copy(user = Loading)
         }
@@ -109,8 +109,10 @@ class WordsViewModel(
                         copy(user = Loaded(it))
                     }
                 }
-            }.onFailure {
-                Log.d("TAG", "getUser: failed $it")
+            }.onFailure {throwable ->
+                applyState {
+                    copy(user = Failed(throwable))
+                }
             }
         }
     }
@@ -132,6 +134,7 @@ class WordsViewModel(
         state.value.user.data?.let { user ->
             launch {
                 deleteUserUseCase.execute(user = user)
+                updateUser()
             }
         }
     }

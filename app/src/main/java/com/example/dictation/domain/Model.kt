@@ -16,9 +16,9 @@ enum class Level {
 
 @Entity(tableName = "user")
 data class User(
+    @PrimaryKey
     val firstName: String,
     val lastName: String,
-    @PrimaryKey
     val phoneNumber: String,
     val score: Int,
 )

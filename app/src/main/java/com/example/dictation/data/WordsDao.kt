@@ -20,7 +20,7 @@ interface WordsDao {
 
 @Database(
     entities = [Word::class, User::class],
-    version = 2, exportSchema = false
+    version = 3, exportSchema = false
 )
 @TypeConverters(WordEntityConverter::class,UserEntityConverter::class)
 abstract class DictationDatabase : RoomDatabase() {

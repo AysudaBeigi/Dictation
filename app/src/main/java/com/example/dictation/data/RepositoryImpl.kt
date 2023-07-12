@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class RepositoryImpl(private val wordsDao: WordsDao, private val userDao: UserDao) : Repository {
-    private val userFlow:MutableStateFlow<User?> = MutableStateFlow(null)
+    private val userFlow: MutableStateFlow<User?> = MutableStateFlow(null)
     override suspend fun insertWords(words: List<Word>) {
         wordsDao.insertOrUpdateAll(words)
     }
@@ -28,7 +28,7 @@ class RepositoryImpl(private val wordsDao: WordsDao, private val userDao: UserDa
         userFlow.emit(user)
     }
 
-    override suspend fun deleteUser(user:User) {
-        userDao.deleteUser(user=user)
+    override suspend fun deleteUser(user: User) {
+        userDao.deleteUser(user = user)
     }
 }
