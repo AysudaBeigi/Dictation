@@ -53,19 +53,19 @@ class WordsViewModel(
     )
 
     init {
-        getSelectedLevelWordsUseCase(state.value.level)
+        updateSelectedLevelWords()
         getUser()
     }
 
     fun isFirstTimeUsing() = isFirstTimeUsing.execute()
-    private fun getSelectedLevelWordsUseCase(level: Level) {
+    private fun updateSelectedLevelWords() {
         applyState {
             copy(LoadableWords = Loading)
         }
 
         launch {
             runCatching {
-                getSelectedLevelWordsUseCase.execute(level = level)
+                getSelectedLevelWordsUseCase.execute(level = state.value.level)
             }.fold(
                 onSuccess = { words ->
                     applyState {
@@ -76,8 +76,6 @@ class WordsViewModel(
                     applyState {
                         copy(LoadableWords = NotLoaded)
                     }
-                    Log.d("TAG", "can not read words")
-
                 }
             )
         }
@@ -97,6 +95,7 @@ class WordsViewModel(
         applyState {
             copy(level = level)
         }
+        updateSelectedLevelWords()
     }
 
     private fun getUser() {

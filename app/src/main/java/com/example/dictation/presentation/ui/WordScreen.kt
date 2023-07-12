@@ -61,12 +61,12 @@ fun WordScreen(
                 width = 2.dp,
                 color = dictationTheme.colors.primary,
                 shape = dictationTheme.shapes.large
-            ), shape = dictationTheme.shapes.large
+            ).width(300.dp), shape = dictationTheme.shapes.large
         )
         Spacer(modifier = Modifier.size(32.dp))
         PrimaryButton(
             onClick = {
-                if (inputValue.value.text.trim() == word) {
+                if (inputValue.value.text.trim().equals(word, ignoreCase = true)) {
                     sendResult(DictationResult.Success)
                     backgroundColor.value = dictationTheme.colors.darkGreen
                 } else {
