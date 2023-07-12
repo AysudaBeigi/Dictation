@@ -2,12 +2,12 @@ package com.example.dictation.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,7 +47,7 @@ fun ProfileScreen(
 
     when (user) {
         is Loading, NotLoaded -> {
-           LoadingComponent()
+            LoadingComponent()
         }
 
         is Loaded -> {
@@ -85,8 +84,9 @@ private fun LoadedProfileScreenContent(
         PrimaryButton(
             modifier = modifier
                 .align(Alignment.BottomCenter)
-                .padding(32.dp)
-                .fillMaxWidth(),
+                .padding(vertical = 32.dp, horizontal = 16.dp)
+                .fillMaxWidth()
+                .height(48.dp),
             onClick = {
                 onRegisterClicked(
                     firstName.value,
@@ -110,9 +110,9 @@ private fun UserInformationTextFields(
         modifier = modifier
             .fillMaxSize()
             .background(color = dictationTheme.colors.background)
-            .padding(16.dp), verticalArrangement = Arrangement.Center
+            .padding(16.dp)
     ) {
-
+        Space(size = 64.dp)
         Text(text = stringResource(id = R.string.first_name))
         Space(size = 8.dp)
         UserInformationItemTextFiled(
