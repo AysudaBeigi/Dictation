@@ -9,7 +9,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.dictation.R
 
-
 val dictationTypography = Typography(
     h1 = TextStyle(
         color = Color.Black,
@@ -46,5 +45,11 @@ val dictationTypography = Typography(
         fontSize = 11.sp,
         fontWeight = FontWeight.Medium,
         fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+    ),
+    subtitle1 = TextStyle(
+        color = Color.Black,
+        fontSize = 32.sp,
+        fontWeight = FontWeight.Bold,
+        fontFamily = FontFamily(Font(R.font.montserrat_medium)),
     ),
 )
