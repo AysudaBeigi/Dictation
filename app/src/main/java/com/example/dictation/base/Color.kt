@@ -12,6 +12,7 @@ data class DictationColor(
     val darkRed: Color = Color(0xFFFF6976),
     val lightRed: Color = Color(0xFFFF808B),
     val gray: Color = Color(0xFFB0B0B0),
+    val disable: Color = Color(0xFFD3D3D3),
     val primary: Color = Color(0xFF141A30),
     val lightPurple: Color = Color(0xFF5467FF),
     val separatorColor: Color = Color(0xFFCCDAFF),

@@ -29,14 +29,16 @@ fun Space(modifier: Modifier = Modifier, size: Dp) = Spacer(modifier = modifier.
 fun PrimaryButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    title: String
+    title: String,
+    enabled: Boolean = true,
 ) {
     Button(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = dictationTheme.colors.pink,
-        ), shape = dictationTheme.shapes.medium
+            disabledBackgroundColor = dictationTheme.colors.disable,
+        ), shape = dictationTheme.shapes.medium, enabled = enabled
     ) {
         Text(
             text = title,
@@ -68,7 +70,11 @@ fun FailedComponent(modifier: Modifier = Modifier) {
                 tint = dictationTheme.colors.lightRed
             )
             Space(size = 64.dp)
-            Text(text = stringResource(id = R.string.error), style = dictationTheme.typography.subtitle1, textAlign = TextAlign.Center)
+            Text(
+                text = stringResource(id = R.string.error),
+                style = dictationTheme.typography.subtitle1,
+                textAlign = TextAlign.Center
+            )
         }
 
     }

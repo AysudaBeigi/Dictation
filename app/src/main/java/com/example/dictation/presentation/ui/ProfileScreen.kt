@@ -1,5 +1,6 @@
 package com.example.dictation.presentation.ui
 
+import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -19,11 +21,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.text.trimmedLength
 import com.example.dictation.R
 import com.example.dictation.base.DictationTheme
 import com.example.dictation.base.Failed
@@ -94,11 +99,19 @@ private fun LoadedProfileScreenContent(
                     phoneNumber.value
                 )
             },
-            title = stringResource(id = R.string.save)
+            title = stringResource(id = R.string.save),
+            enabled = inputsAreNotEmpty(firstName, lastName, phoneNumber)
         )
     }
 }
 
+private fun inputsAreNotEmpty(
+    firstName: MutableState<String>,
+    lastName: MutableState<String>,
+    phoneNumber: MutableState<String>
+) = firstName.value.isNotBlank() && lastName.value.isNotBlank() && phoneNumber.value.isNotBlank()
+
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun UserInformationTextFields(
     modifier: Modifier,
@@ -106,6 +119,7 @@ private fun UserInformationTextFields(
     lastName: MutableState<String>,
     phoneNumber: MutableState<String>
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -137,8 +151,10 @@ private fun UserInformationTextFields(
         Space(size = 8.dp)
         UserInformationItemTextFiled(
             value = phoneNumber.value,
-            onValueChange = { phoneNumber.value = it },
-            keyboardType = KeyboardType.Phone
+            onValueChange = {
+                phoneNumber.value = it
+            },
+            keyboardType = KeyboardType.Phone,
         )
         Spacer(modifier = Modifier.size(32.dp))
 
@@ -151,6 +167,7 @@ private fun UserInformationItemTextFiled(
     keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     label: @Composable (() -> Unit)? = null,
+    isError: Boolean = false
 ) {
     OutlinedTextField(
         value = value,
@@ -162,16 +179,35 @@ private fun UserInformationItemTextFiled(
                 color = dictationTheme.colors.primary,
                 shape = dictationTheme.shapes.medium
             ),
-        label = label,
         shape = dictationTheme.shapes.medium,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             cursorColor = dictationTheme.colors.pink,
-            textColor = dictationTheme.colors.primary
+            textColor = dictationTheme.colors.primary,
+            errorBorderColor = dictationTheme.colors.darkRed,
+            errorLabelColor = dictationTheme.colors.darkRed,
         ),
         maxLines = 1,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        isError = isError,
+        placeholder = @Composable {
+            Text(
+                text = "",
+                style = dictationTheme.typography.h4
+            )
+        },
+        label = @Composable {
+            Text(
+                text = "",
+                style = dictationTheme.typography.h4
+            )
+        },
+        keyboardActions = KeyboardActions(onDone = {
+        }),
     )
 }
+
+fun isValidPhone(phone: String): Boolean =
+    phone.trimmedLength() in (10..13) && Patterns.PHONE.matcher(phone).matches()
 
 @Composable
 @Preview
