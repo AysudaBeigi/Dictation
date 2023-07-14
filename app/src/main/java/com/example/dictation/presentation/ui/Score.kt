@@ -1,11 +1,7 @@
 package com.example.dictation.presentation.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,10 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
+import com.airbnb.lottie.compose.*
 import com.example.dictation.R
 import com.example.dictation.base.DictationTheme
 import com.example.dictation.base.dictationTheme
@@ -33,60 +26,57 @@ fun Score(modifier: Modifier = Modifier, score: Int) {
             .fillMaxSize()
             .background(color = dictationTheme.colors.background)
     ) {
-        ScoreContent(Modifier.align(Alignment.TopCenter), score)
-        ShowAnimation(modifier = Modifier.align(Alignment.BottomCenter))
-    }
-}
-
-@Composable
-private fun ScoreContent(modifier: Modifier = Modifier, score: Int) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Space(size = 64.dp)
-        Text(
-            text = stringResource(id = R.string.score_title),
-            style = dictationTheme.typography.h1.copy(fontWeight = FontWeight.Normal)
+        ScoreAmount(
+            modifier = Modifier
+                .padding(vertical = 72.dp, horizontal = 16.dp)
+                .align(Alignment.BottomCenter),
+            score = score
         )
-        Space(size = 32.dp)
-        ScoreAmount(score)
-
+        ShowAnimation(modifier = Modifier.align(Alignment.TopCenter))
     }
 }
 
 @Composable
 private fun ScoreAmount(score: Int, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier
-            .size(150.dp),
+        modifier = modifier.fillMaxWidth(),
         shape = dictationTheme.shapes.large,
-        backgroundColor = dictationTheme.colors.lightRed,
+        backgroundColor = dictationTheme.colors.pink,
         elevation = 4.dp
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Space(size = 16.dp)
+            Text(
+                text = stringResource(id = R.string.score_title),
+                style = dictationTheme.typography.h1.copy(fontWeight = FontWeight.Normal),
+                color = dictationTheme.colors.primary
+            )
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = score.toString(),
                 style = dictationTheme.typography.subtitle1,
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier,
                 color = dictationTheme.colors.yellow,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
+            Space(size = 16.dp)
         }
-
     }
 }
 
 @Composable
 private fun ShowAnimation(modifier: Modifier = Modifier) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.score))
-    val animationState = animateLottieCompositionAsState(composition = composition)
-
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_star_2))
+    val animationState by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
     LottieAnimation(
         composition = composition,
-        progress = animationState.progress,
+        progress = animationState,
         modifier = modifier,
     )
 }
