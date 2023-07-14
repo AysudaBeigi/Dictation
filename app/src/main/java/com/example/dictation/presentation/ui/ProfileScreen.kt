@@ -14,8 +14,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -114,6 +117,7 @@ private fun UserInformationTextFields(
     phoneNumber: MutableState<String>
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -124,20 +128,29 @@ private fun UserInformationTextFields(
         UserInformationItemTextFiled(
             value = firstName.value,
             onValueChange = { firstName.value = it.take(15) },
-            keyboardType = KeyboardType.Text,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
             labelSrc = R.string.first_name,
             placeholderSrc = R.string.enter_first_name,
             keyboardActions = KeyboardActions(onNext = {
-
+                focusManager.moveFocus(FocusDirection.Down)
             })
         )
         Space(size = 32.dp)
         UserInformationItemTextFiled(
             value = lastName.value,
             onValueChange = { lastName.value = it.take(15) },
-            keyboardType = KeyboardType.Text,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
             labelSrc = R.string.last_name,
             placeholderSrc = R.string.enter_last_name,
+            keyboardActions = KeyboardActions(onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            })
         )
         Space(size = 32.dp)
         UserInformationItemTextFiled(
@@ -145,9 +158,16 @@ private fun UserInformationTextFields(
             onValueChange = {
                 phoneNumber.value = it.take(11)
             },
-            keyboardType = KeyboardType.Phone,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Phone,
+                imeAction = ImeAction.Done
+            ),
             labelSrc = R.string.phone_number,
             placeholderSrc = R.string.enter_phone_number,
+            keyboardActions = KeyboardActions(onDone = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+            })
         )
         Space(size = 32.dp)
 
@@ -165,7 +185,7 @@ private fun UserInformationItemTextFiled(
     value: String,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     onValueChange: (String) -> Unit,
-    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardOptions: KeyboardOptions,
     labelSrc: Int,
     placeholderSrc: Int,
     isError: Boolean = false
@@ -187,7 +207,7 @@ private fun UserInformationItemTextFiled(
             unfocusedLabelColor = dictationTheme.colors.pink,
         ),
         maxLines = 1,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        keyboardOptions = keyboardOptions,
         isError = isError,
         placeholder = @Composable {
             Box(modifier = Modifier.fillMaxWidth()) {
