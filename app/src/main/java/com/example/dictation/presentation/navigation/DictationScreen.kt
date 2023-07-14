@@ -14,12 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.dictation.presentation.WordsViewModel
-import com.example.dictation.presentation.ui.DictationLevelScreen
-import com.example.dictation.presentation.ui.Drawer
-import com.example.dictation.presentation.ui.ProfileScreen
-import com.example.dictation.presentation.ui.Score
-import com.example.dictation.presentation.ui.TopBar
-import com.example.dictation.presentation.ui.WordsScreen
+import com.example.dictation.presentation.ui.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -40,7 +35,8 @@ fun DictationScreen(
                     }
                 }
             )
-        }, drawerContent = {
+        },
+        drawerContent = {
             Drawer(onProfileClicked = {
                 navController.navigate(
                     DictationNavigation.Profile.navigationName()
@@ -56,6 +52,14 @@ fun DictationScreen(
             }, onLogoutClicked = {
                 viewModel.deleteUser()
                 navController.navigate(DictationNavigation.Profile.navigationName())
+                scope.launch {
+                    scaffoldState.drawerState.close()
+                }
+            }, onHomeClicked = {
+                scope.launch {
+                    scaffoldState.drawerState.close()
+                }
+                navController.navigate(DictationNavigation.SelectLevel.navigationName())
             })
         },
     ) { padding ->
@@ -66,7 +70,7 @@ fun DictationScreen(
 }
 
 @Composable
-fun DictationGraph(navController: NavHostController,viewModel:WordsViewModel) {
+fun DictationGraph(navController: NavHostController, viewModel: WordsViewModel) {
 
     val state = viewModel.state.collectAsState().value
     val context = LocalContext.current

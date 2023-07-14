@@ -20,6 +20,7 @@ import com.example.dictation.core.Space
 @Composable
 fun Drawer(
     modifier: Modifier = Modifier,
+    onHomeClicked: () -> Unit,
     onProfileClicked: () -> Unit,
     onScoreClicked: () -> Unit,
     onLogoutClicked: () -> Unit,
@@ -31,6 +32,17 @@ fun Drawer(
             .padding(16.dp)
     ) {
         Space(size = 32.dp)
+        DrawerMenuItem(
+            iconDrawableId = R.drawable.ic_home,
+            text = stringResource(id = R.string.home),
+            onItemClick = onHomeClicked
+        )
+        Spacer(
+            modifier = Modifier
+                .height(1.dp)
+                .fillMaxWidth()
+                .background(color = dictationTheme.colors.gray)
+        )
         DrawerMenuItem(
             iconDrawableId = R.drawable.ic_profile,
             text = stringResource(id = R.string.profile),
@@ -63,9 +75,7 @@ fun Drawer(
 
 @Composable
 private fun DrawerMenuItem(
-    iconDrawableId: Int,
-    text: String,
-    onItemClick: () -> Unit
+    iconDrawableId: Int, text: String, onItemClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -82,9 +92,7 @@ private fun DrawerMenuItem(
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
-            text = text,
-            style = dictationTheme.typography.h2,
-            color = dictationTheme.colors.primary
+            text = text, style = dictationTheme.typography.h2, color = dictationTheme.colors.primary
         )
     }
 }
@@ -93,6 +101,6 @@ private fun DrawerMenuItem(
 @Preview
 fun DrawerPreview() {
     DictationTheme {
-        Drawer(onProfileClicked = {}, onScoreClicked = {}, onLogoutClicked = {})
+        Drawer(onProfileClicked = {}, onScoreClicked = {}, onLogoutClicked = {}, onHomeClicked = {})
     }
 }
