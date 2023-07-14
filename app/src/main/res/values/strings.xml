@@ -15,4 +15,7 @@
     <string name="save">Save</string>
     <string name="enter_word">Please Enter the read word</string>
     <string name="score_title">Your score is  </string>
+    <string name="enter_first_name">Enter first name</string>
+    <string name="enter_last_name">Enter last name</string>
+    <string name="enter_phone_number">Enter phone number</string>
 </resources>

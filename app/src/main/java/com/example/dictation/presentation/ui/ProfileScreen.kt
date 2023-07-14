@@ -2,15 +2,7 @@ package com.example.dictation.presentation.ui
 
 import android.util.Patterns
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
@@ -26,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.trimmedLength
@@ -127,82 +120,91 @@ private fun UserInformationTextFields(
             .padding(16.dp)
     ) {
         Space(size = 64.dp)
-        Text(text = stringResource(id = R.string.first_name))
-        Space(size = 8.dp)
         UserInformationItemTextFiled(
             value = firstName.value,
             onValueChange = { firstName.value = it },
-            keyboardType = KeyboardType.Text
+            keyboardType = KeyboardType.Text,
+            labelSrc = R.string.first_name,
+            placeholderSrc = R.string.enter_first_name,
+            keyboardActions = KeyboardActions(onNext = {
+
+            })
         )
-
-        Spacer(modifier = Modifier.size(32.dp))
-
-        Text(text = stringResource(id = R.string.last_name))
-        Space(size = 8.dp)
+        Space(size = 32.dp)
         UserInformationItemTextFiled(
             value = lastName.value,
             onValueChange = { lastName.value = it },
-            keyboardType = KeyboardType.Text
+            keyboardType = KeyboardType.Text,
+            labelSrc = R.string.last_name,
+            placeholderSrc = R.string.enter_last_name,
         )
-
-        Spacer(modifier = Modifier.size(32.dp))
-
-        Text(text = stringResource(id = R.string.phone_number))
-        Space(size = 8.dp)
+        Space(size = 32.dp)
         UserInformationItemTextFiled(
             value = phoneNumber.value,
             onValueChange = {
                 phoneNumber.value = it
             },
             keyboardType = KeyboardType.Phone,
+            labelSrc = R.string.phone_number,
+            placeholderSrc = R.string.enter_phone_number,
         )
-        Spacer(modifier = Modifier.size(32.dp))
+        Space(size = 32.dp)
 
     }
 }
 
 @Composable
 private fun UserInformationItemTextFiled(
+    modifier: Modifier = Modifier,
     value: String,
-    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     onValueChange: (String) -> Unit,
-    label: @Composable (() -> Unit)? = null,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    labelSrc: Int,
+    placeholderSrc: Int,
     isError: Boolean = false
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(
-                width = 2.dp,
-                color = dictationTheme.colors.primary,
-                shape = dictationTheme.shapes.medium
-            ),
+        modifier = modifier
+            .fillMaxWidth(),
         shape = dictationTheme.shapes.medium,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             cursorColor = dictationTheme.colors.pink,
             textColor = dictationTheme.colors.primary,
             errorBorderColor = dictationTheme.colors.darkRed,
             errorLabelColor = dictationTheme.colors.darkRed,
+            unfocusedBorderColor = dictationTheme.colors.primary,
+            placeholderColor = dictationTheme.colors.pink,
+            focusedLabelColor = dictationTheme.colors.pink,
+            unfocusedLabelColor = dictationTheme.colors.pink,
         ),
         maxLines = 1,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         isError = isError,
         placeholder = @Composable {
-            Text(
-                text = "",
-                style = dictationTheme.typography.h4
-            )
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = stringResource(id = placeholderSrc),
+                    style = dictationTheme.typography.h4,
+                    modifier = Modifier.align(Alignment.Center),
+                    textAlign = TextAlign.Start,
+                    color = dictationTheme.colors.pink
+                )
+            }
+
         },
         label = @Composable {
             Text(
-                text = "",
-                style = dictationTheme.typography.h4
+                text = stringResource(id = labelSrc),
+                style = dictationTheme.typography.h4,
+                modifier = Modifier,
+                textAlign = TextAlign.Start,
+                color = dictationTheme.colors.primary,
             )
         },
-        keyboardActions = KeyboardActions(onDone = {
-        }),
+        keyboardActions = keyboardActions,
     )
 }
 
