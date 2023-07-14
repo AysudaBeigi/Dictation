@@ -1,20 +1,25 @@
 package com.example.dictation.presentation.navigation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.dictation.base.dictationTheme
 import com.example.dictation.presentation.WordsViewModel
 import com.example.dictation.presentation.ui.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -28,13 +33,7 @@ fun DictationScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopBar(
-                onNavigationIconClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
-                    }
-                }
-            )
+            DictationTopBar(scope, scaffoldState)
         },
         drawerContent = {
             Drawer(onProfileClicked = {
@@ -67,6 +66,27 @@ fun DictationScreen(
             DictationGraph(navController = navController, viewModel = viewModel)
         }
     }
+}
+
+@Composable
+private fun DictationTopBar(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState
+) {
+    TopAppBar(
+        navigationIcon = {
+            Icon(
+                Icons.Default.Menu,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .clickable {
+                        scope.launch {
+                            scaffoldState.drawerState.open()
+                        }
+                    }, tint = dictationTheme.colors.pink, contentDescription = null
+            )
+        }, title = {}, backgroundColor = dictationTheme.colors.background
+    )
 }
 
 @Composable
