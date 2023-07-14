@@ -3,12 +3,17 @@ package com.example.dictation.presentation.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -57,26 +62,44 @@ fun WordScreen(
             value = inputValue.value,
             onValueChange = { inputValue.value = it },
             colors = TextFieldDefaults.outlinedTextFieldColors(cursorColor = dictationTheme.colors.primary),
-            modifier = Modifier.border(
-                width = 2.dp,
-                color = dictationTheme.colors.primary,
-                shape = dictationTheme.shapes.large
-            ).width(260.dp), shape = dictationTheme.shapes.large
+            modifier = Modifier
+                .border(
+                    width = 2.dp,
+                    color = dictationTheme.colors.primary,
+                    shape = dictationTheme.shapes.large
+                )
+                .width(260.dp), shape = dictationTheme.shapes.large
         )
         Spacer(modifier = Modifier.size(32.dp))
+        val previousInputValue = remember {
+            mutableStateOf("")
+        }
         PrimaryButton(
             onClick = {
-                if (inputValue.value.text.trim().equals(word, ignoreCase = true)) {
-                    sendResult(DictationResult.Success)
-                    backgroundColor.value = dictationTheme.colors.darkGreen
-                } else {
-                    sendResult(DictationResult.Failed)
-                    backgroundColor.value = dictationTheme.colors.darkRed
+                if (inputValue.value.text.trim() != previousInputValue.value) {
+                    previousInputValue.value = inputValue.value.text.trim()
+                    showResult(inputValue, word, sendResult, backgroundColor)
                 }
+
             }, title = stringResource(id = R.string.submit),
             modifier = Modifier.fillMaxWidth()
         )
 
+    }
+}
+
+private fun showResult(
+    inputValue: MutableState<TextFieldValue>,
+    word: String,
+    sendResult: (DictationResult) -> Unit,
+    backgroundColor: MutableState<Color>
+) {
+    if (inputValue.value.text.trim().equals(word, ignoreCase = true)) {
+        sendResult(DictationResult.Success)
+        backgroundColor.value = dictationTheme.colors.darkGreen
+    } else {
+        sendResult(DictationResult.Failed)
+        backgroundColor.value = dictationTheme.colors.darkRed
     }
 }
 
