@@ -1,6 +1,5 @@
 package com.example.dictation.presentation.ui
 
-import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
@@ -21,7 +20,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.text.trimmedLength
 import com.example.dictation.R
 import com.example.dictation.base.DictationTheme
 import com.example.dictation.base.Failed
@@ -35,6 +33,8 @@ import com.example.dictation.core.LoadingComponent
 import com.example.dictation.core.PrimaryButton
 import com.example.dictation.core.Space
 import com.example.dictation.domain.User
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 @Composable
 fun ProfileScreen(
@@ -103,6 +103,7 @@ private fun inputsAreNotEmpty(
     lastName: MutableState<String>,
     phoneNumber: MutableState<String>
 ) = firstName.value.isNotBlank() && lastName.value.isNotBlank() && phoneNumber.value.isNotBlank()
+        && isValid(phone = phoneNumber.value)
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -122,7 +123,7 @@ private fun UserInformationTextFields(
         Space(size = 64.dp)
         UserInformationItemTextFiled(
             value = firstName.value,
-            onValueChange = { firstName.value = it },
+            onValueChange = { firstName.value = it.take(15) },
             keyboardType = KeyboardType.Text,
             labelSrc = R.string.first_name,
             placeholderSrc = R.string.enter_first_name,
@@ -133,7 +134,7 @@ private fun UserInformationTextFields(
         Space(size = 32.dp)
         UserInformationItemTextFiled(
             value = lastName.value,
-            onValueChange = { lastName.value = it },
+            onValueChange = { lastName.value = it.take(15) },
             keyboardType = KeyboardType.Text,
             labelSrc = R.string.last_name,
             placeholderSrc = R.string.enter_last_name,
@@ -142,7 +143,7 @@ private fun UserInformationTextFields(
         UserInformationItemTextFiled(
             value = phoneNumber.value,
             onValueChange = {
-                phoneNumber.value = it
+                phoneNumber.value = it.take(11)
             },
             keyboardType = KeyboardType.Phone,
             labelSrc = R.string.phone_number,
@@ -151,6 +152,11 @@ private fun UserInformationTextFields(
         Space(size = 32.dp)
 
     }
+}
+
+fun isValid(phone: String): Boolean {
+    val matcher: Matcher = Pattern.compile("(09)?[0-9]{9}").matcher(phone)
+    return matcher.find() && matcher.group().equals(phone)
 }
 
 @Composable
@@ -207,9 +213,6 @@ private fun UserInformationItemTextFiled(
         keyboardActions = keyboardActions,
     )
 }
-
-fun isValidPhone(phone: String): Boolean =
-    phone.trimmedLength() in (10..13) && Patterns.PHONE.matcher(phone).matches()
 
 @Composable
 @Preview
